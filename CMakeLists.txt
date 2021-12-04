@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
-project(code)
+project(Bookstore)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Bookstore src/main.cpp src/BPlusTree.cpp)
+add_executable(code src/main.cpp src/BPlusTree.cpp)

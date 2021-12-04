@@ -9,7 +9,11 @@ using namespace std;
 int n;
 vector<int> ans;
 
+
+
 int main() {
+    test();
+    return 0;
     BPlusTree system("data.dat");
     system.Initialize();
     string opt, index;
