@@ -386,8 +386,10 @@ bool BPlusTree::Delete(const char *key, int hash, int index) {
                 }
                 return true;
             }
-            else
+            else {
                 Write(node, node.index);
+                return true;
+            }
         }
     return false;
 }
