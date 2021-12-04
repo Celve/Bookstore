@@ -123,7 +123,7 @@ void BPlusTree::Read(Node &node, int i) {
 
 void BPlusTree::AddBehind(Node &node, Node &pre_node) {
     Node next_node;
-    Read(next_node, pre_node.next);
+    BPlusTree::Read(next_node, pre_node.next);
     node.pre = pre_node.index;
     node.next = next_node.index;
     pre_node.next = node.index;
@@ -133,7 +133,7 @@ void BPlusTree::AddBehind(Node &node, Node &pre_node) {
     Write(next_node, next_node.index);
 }
 
-//n; r; head; tail; ...
+//n; head; tail; ...
 void BPlusTree::Initialize() {
     file.open(file_name, std::ios::out);
     n = 0;
@@ -162,6 +162,7 @@ BPlusTree::BPlusTree(char *_file_name) {
 
 BPlusTree::~BPlusTree() {
     file.open(file_name);
+    file.seekp(std::ios::beg);
     file.write(reinterpret_cast<char *>(&n), sizeof(int));
     file.write(reinterpret_cast<char *>(&r), sizeof(int));
     file.close();
@@ -193,6 +194,7 @@ bool BPlusTree::Insert(const char *key, int value, int index) {
                 half.is_leaf = true;
                 AddBehind(half, child);
                 node.Insert(half.key[0], half.hash[0], half.index);
+                Write(child, child.index);
             } else if (child.n >= MAXN + 1) {
                 Node half(n++);
                 child.Split(half);
@@ -360,15 +362,15 @@ bool BPlusTree::Delete(const char *key, int hash, int index) {
                     Write(temp, child.index);
                 }
                 else if (i != node.n - 1) {
-                    node.DeShift(i + 1);
+                    node.DeShift(i);
                     --node.n;
                     child.Merge(right_child);
                     swap(child.key, right_child.key);
                     swap(child.hash, right_child.hash);
                     swap(child.children, right_child.children);
                     swap(child.n, right_child.n);
-//                    strcpy(node.key[i], right_child.key[0]);
-//                    node.hash[i] = right_child.hash[0];
+                    strcpy(node.key[i], right_child.key[0]);
+                    node.hash[i] = right_child.hash[0];
                     if (right_child.is_leaf) {
                         left_child.next = right_child.index;
                         right_child.pre = left_child.index;
