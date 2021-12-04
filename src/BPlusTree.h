@@ -8,7 +8,7 @@
 #define MAXN 40
 #define MINN 20
 #define MAXS 64
- 
+
 #include <cstdio>
 #include <algorithm>
 #include <cstring>
