@@ -13,7 +13,7 @@ vector<int> ans;
 
 int main() {
     BPlusTree system("data.dat");
-    system.Initialize();
+//    system.Initialize();
     string opt, index;
     int value;
     cin >> n;
@@ -38,5 +38,6 @@ int main() {
             cin >> value;
             system.Delete(index.c_str(), value);
         }
+//        system.Output();
     }
 }

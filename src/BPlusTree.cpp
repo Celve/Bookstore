@@ -231,7 +231,7 @@ bool BPlusTree::Insert(const char *key, int value) {
         n += 2;
         Node new_root(r = n - 2, root.key[0], root.hash[0], root.index), half(n - 1);
         root.Split(half);
-        new_root.Insert(half.key[0], root.hash[0], half.index);
+        new_root.Insert(half.key[0], half.hash[0], half.index);
         Write(root, root.index);
         Write(new_root, new_root.index);
         Write(half, half.index);
@@ -265,7 +265,7 @@ int BPlusTree::FindPtr(const char *key, int index) {
         return index;
     for (int i = 1; i <= node.n; ++i)
         if (i == node.n || strcmp(key, node.key[i]) < 0)
-            return FindPtr(key,node.children[i - 1]);
+            return FindPtr(key, node.children[i - 1]);
     return -1;
 }
 
@@ -285,7 +285,9 @@ void BPlusTree::Find(const char *key, vector<int> &value) {
             }
         if (current.pre >= 0 && current.n && !strcmp(current.key[0], key))
             Read(current, current.pre);
-    } while (flag && current.pre >= 0);
+        else
+            break;
+    } while (flag);
     sort(value.begin(), value.end());
 }
 
