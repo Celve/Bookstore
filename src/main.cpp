@@ -14,7 +14,7 @@ vector<int> ans;
 int main() {
     BPlusTree system("data.dat");
 //    system.Initialize();
-    string opt, index; 
+    string opt, index;
     int value;
     cin >> n;
     for (int i = 1; i <= n; ++i) {

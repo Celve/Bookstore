@@ -5,8 +5,8 @@
 #ifndef BOOKSTORE_BPLUSTREE_H
 #define BOOKSTORE_BPLUSTREE_H
 
-#define MAXN 4
-#define MINN 2
+#define MAXN 40
+#define MINN 20
 #define MAXS 64
 
 #include <cstdio>
