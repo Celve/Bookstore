@@ -82,7 +82,13 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/lynn/Projects/Bookstore/main.cpp">
+		<Unit filename="/home/lynn/Projects/Bookstore/src/BPlusTree.cpp">
+			<Option target="Bookstore"/>
+		</Unit>
+		<Unit filename="/home/lynn/Projects/Bookstore/src/BPlusTree.h">
+			<Option target="Bookstore"/>
+		</Unit>
+		<Unit filename="/home/lynn/Projects/Bookstore/src/main.cpp">
 			<Option target="Bookstore"/>
 		</Unit>
 		<Unit filename="/home/lynn/Projects/Bookstore/CMakeLists.txt">

@@ -123,32 +123,59 @@ Bookstore/fast:
 	$(MAKE) -f CMakeFiles/Bookstore.dir/build.make CMakeFiles/Bookstore.dir/build
 .PHONY : Bookstore/fast
 
-main.o: main.cpp.o
+src/BPlusTree.o: src/BPlusTree.cpp.o
 
-.PHONY : main.o
+.PHONY : src/BPlusTree.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/Bookstore.dir/build.make CMakeFiles/Bookstore.dir/main.cpp.o
-.PHONY : main.cpp.o
+src/BPlusTree.cpp.o:
+	$(MAKE) -f CMakeFiles/Bookstore.dir/build.make CMakeFiles/Bookstore.dir/src/BPlusTree.cpp.o
+.PHONY : src/BPlusTree.cpp.o
 
-main.i: main.cpp.i
+src/BPlusTree.i: src/BPlusTree.cpp.i
 
-.PHONY : main.i
+.PHONY : src/BPlusTree.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/Bookstore.dir/build.make CMakeFiles/Bookstore.dir/main.cpp.i
-.PHONY : main.cpp.i
+src/BPlusTree.cpp.i:
+	$(MAKE) -f CMakeFiles/Bookstore.dir/build.make CMakeFiles/Bookstore.dir/src/BPlusTree.cpp.i
+.PHONY : src/BPlusTree.cpp.i
 
-main.s: main.cpp.s
+src/BPlusTree.s: src/BPlusTree.cpp.s
 
-.PHONY : main.s
+.PHONY : src/BPlusTree.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/Bookstore.dir/build.make CMakeFiles/Bookstore.dir/main.cpp.s
-.PHONY : main.cpp.s
+src/BPlusTree.cpp.s:
+	$(MAKE) -f CMakeFiles/Bookstore.dir/build.make CMakeFiles/Bookstore.dir/src/BPlusTree.cpp.s
+.PHONY : src/BPlusTree.cpp.s
+
+src/main.o: src/main.cpp.o
+
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) -f CMakeFiles/Bookstore.dir/build.make CMakeFiles/Bookstore.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) -f CMakeFiles/Bookstore.dir/build.make CMakeFiles/Bookstore.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) -f CMakeFiles/Bookstore.dir/build.make CMakeFiles/Bookstore.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
 # Help Target
 help:
@@ -159,9 +186,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... Bookstore"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... src/BPlusTree.o"
+	@echo "... src/BPlusTree.i"
+	@echo "... src/BPlusTree.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 .PHONY : help
 
 
