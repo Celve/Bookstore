@@ -225,7 +225,7 @@ bool BPlusTree::Insert(char *key, int value, int index) {
                 AddBehind(half, child);
                 node.Insert(half.key[0], half.hash[0], half.index);
                 Write(child, child.index);
-            } else if (child.n >= MAXN + 1) {
+            } else if (child.n >= MAXN) {
                 Node half(n++);
                 child.Split(half);
                 node.Insert(half.key[0], half.hash[0], half.index);
@@ -257,7 +257,7 @@ bool BPlusTree::Insert(char *key, int value) {
         return false;
     Node root;
     Read(root, r);
-    if (root.n >= MAXN + 1) {
+    if (root.n >= MAXN) {
         n += 2;
         Node new_root(r = n - 2, root.key[0], root.hash[0], root.index), half(n - 1);
         root.Split(half);
@@ -348,11 +348,11 @@ bool BPlusTree::Delete(char *key, int hash, int index) {
                 --node.n;
             }
             int flag = !child.is_leaf;
-            if (node.n && child.n < MINN + flag) {
+            if (node.n && child.n < MINN) {
                 Node left_child, right_child, temp;
                 if (i != 0) {
                     Read(left_child, node.children[i - 1]);
-                    if (left_child.n > MINN + flag) {
+                    if (left_child.n > MINN) {
                         --left_child.n;
                         child.Insert(left_child.key[left_child.n], left_child.hash[left_child.n], left_child.children[left_child.n]);
                         strcpy(node.key[i], child.key[0]);
@@ -365,7 +365,7 @@ bool BPlusTree::Delete(char *key, int hash, int index) {
                 }
                 if (i != node.n - 1) {
                     Read(right_child, node.children[i + 1]);
-                    if (right_child.n > MINN + flag) {
+                    if (right_child.n > MINN) {
                         child.Insert(right_child.key[0], right_child.hash[0], right_child.children[0]);
                         right_child.DeShift(0);
                         --right_child.n;
