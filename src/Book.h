@@ -129,7 +129,7 @@ public:
 
     BookSystem(string file_name);
 
-
+    ~BookSystem();
 };
 
 #endif //BOOKSTORE_BOOKS_H
