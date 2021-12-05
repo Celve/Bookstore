@@ -17,12 +17,12 @@ int main() {
     int value;
     scanf("%d", &n);
     for (int i = 1; i <= n; ++i) {
-        scanf("%s%s", opt, ptr);
-        if (opt == "insert") {
+        scanf("%s %s", opt, ptr);
+        if (opt[0] == 'i') {
             scanf("%d", &value);
             system.Insert(ptr, value);
         }
-        else if (opt == "find") {
+        else if (opt[0] == 'f') {
             ans.clear();
             system.Find(ptr, ans);
             if (!ans.size()) {
@@ -34,7 +34,7 @@ int main() {
             puts("");
         }
         else {
-            cin >> value;
+            scanf("%d", &value);
             system.Delete(ptr, value);
         }
 //        system.Output();
