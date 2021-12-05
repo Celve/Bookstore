@@ -44,7 +44,8 @@ bool Node::Insert(char *_key, int _hash, int _children) {
     for (int i = 0; i < n; ++i) {
         if (!strcmp(_key, key[i]) && _hash == hash[i])
             return false;
-        if (strcmp(_key, key[i]) < 0 || (!strcmp(_key, key[i]) && _hash < hash[i])) {
+        int judgement = strcmp(_key, key[i]);
+        if (judgement < 0 || (!judgement && _hash < hash[i])) {
             Shift(i);
             strcpy(key[i], _key);
             hash[i] = _hash;
@@ -248,9 +249,11 @@ int BPlusTree::Find(char *key, int hash, int index) {
                 return node.children[i];
         return -1;
     }
-    for (int i = 1; i <= node.n; ++i)
-        if (i == node.n || strcmp(key, node.key[i]) < 0 || !strcmp(key, node.key[i]) && hash < node.hash[i])
+    for (int i = 1; i <= node.n; ++i) {
+        int judgement = strcmp(key, node.key[i]);
+        if (i == node.n || judgement < 0 || !judgement && hash < node.hash[i])
             return Find(key, hash, node.children[i - 1]);
+    }
     return -1;
 }
 
@@ -301,8 +304,9 @@ bool BPlusTree::Delete(char *key, int hash, int index) {
         Write(node, index);
         return true;
     }
-    for (int i = 0; i < node.n; ++i)
-        if (i == node.n - 1 || strcmp(key, node.key[i + 1]) < 0 || (!strcmp(key, node.key[i + 1]) && hash < node.hash[i + 1])) {
+    for (int i = 0; i < node.n; ++i) {
+        int judgement = strcmp(key, node.key[i + 1]);
+        if (i == node.n - 1 || judgement < 0 || (!judgement && hash < node.hash[i + 1])) {
             bool status = Delete(key, hash, node.children[i]);
             if (!status)
                 return false;
@@ -311,18 +315,14 @@ bool BPlusTree::Delete(char *key, int hash, int index) {
             if (child.n) {
                 strcpy(node.key[i], child.key[0]);
                 node.hash[i] = child.hash[0];
-            }
-            else {
+            } else {
                 node.DeShift(i);
                 --node.n;
             }
             int flag = !child.is_leaf;
-//            cout << index << " " << child.index << " "<<child.n << endl;
             if (node.n && child.n < MINN + flag) {
-//                puts("gethere");
                 Node left_child, right_child, temp;
                 if (i != 0) {
-//                    puts("left lend");
                     Read(left_child, node.children[i - 1]);
                     if (left_child.n > MINN + flag) {
                         --left_child.n;
@@ -362,8 +362,7 @@ bool BPlusTree::Delete(char *key, int hash, int index) {
                     Write(left_child, left_child.index);
                     Write(node, node.index);
                     Write(temp, child.index);
-                }
-                else if (i != node.n - 1) {
+                } else if (i != node.n - 1) {
 //                    puts("right merge");
                     node.DeShift(i);
                     --node.n;
@@ -389,12 +388,12 @@ bool BPlusTree::Delete(char *key, int hash, int index) {
                     r = node.children[0];
                 }
                 return true;
-            }
-            else {
+            } else {
                 Write(node, node.index);
                 return true;
             }
         }
+    }
     return false;
 }
 
