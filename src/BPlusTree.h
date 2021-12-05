@@ -73,7 +73,7 @@ public:
 
     void AddBehind(Node &node, Node &next_node);
 
-    bool Insert(char *key, int value, int index);
+    bool Insert(char *key, int value, Node &node);
 
     bool Insert(char *key, int value);
 

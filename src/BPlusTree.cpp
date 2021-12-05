@@ -175,24 +175,22 @@ BPlusTree::~BPlusTree() {
     file.close();
 }
 
-bool BPlusTree::Insert(char *key, int value, int index) {
-    Node node;
-    Read(node, index);
+bool BPlusTree::Insert(char *key, int value, Node &node) {
     if (node.is_leaf) {
         bool status = node.Insert(key, value, value);
         if (!status)
             return false;
-        Write(node, index);
+        Write(node, node.index);
         return true;
     }
     for (int i = 1; i <= node.n; ++i) {
         int judgement = strcmp(key, node.key[i]);
         if (i == node.n || judgement < 0 || (!judgement && value < node.hash[i])) {
-            bool status = Insert(key, value, node.children[i - 1]);
-            if (!status)
-                return false;
             Node child;
             Read(child, node.children[i - 1]);
+            bool status = Insert(key, value, child);
+            if (!status)
+                return false;
             strcpy(node.key[i - 1], child.key[0]);
             node.hash[i - 1] = child.hash[0];
             if (child.is_leaf && child.n >= MAXN) {
@@ -209,7 +207,7 @@ bool BPlusTree::Insert(char *key, int value, int index) {
                 Write(child, child.index);
                 Write(half, half.index);
             }
-            Write(node, index);
+            Write(node, node.index);
             return true;
         }
     }
@@ -229,7 +227,7 @@ bool BPlusTree::Insert(char *key, int value) {
         Write(root, root.index);
         return true;
     }
-    bool status = Insert(key, value, r);
+    bool status = Insert(key, value, temp);
     if (!status)
         return false;
     Node root;
