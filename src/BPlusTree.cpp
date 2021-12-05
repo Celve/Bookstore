@@ -47,9 +47,9 @@ int Node::Find(char *_key, int _hash) {
         int judgement = strcmp(_key, key[mid]);
         if (judgement < 0 || (!judgement && _hash <= hash[mid])) {
             res = mid;
-            r = mid - 1;
-        }
             l = mid + 1;
+        }
+            r = mid - 1;
     }
     return res;
 }
