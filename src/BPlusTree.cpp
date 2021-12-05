@@ -317,7 +317,8 @@ bool BPlusTree::Delete(const char *key, int hash, int index) {
                 --node.n;
             }
             int flag = !child.is_leaf;
-            if (child.n && child.n < MINN + flag) {
+//            cout << index << " " << child.index << " "<<child.n << endl;
+            if (node.n && child.n < MINN + flag) {
 //                puts("gethere");
                 Node left_child, right_child, temp;
                 if (i != 0) {
@@ -336,6 +337,7 @@ bool BPlusTree::Delete(const char *key, int hash, int index) {
                 }
                 if (i != node.n - 1) {
 //                    puts("right lend");
+//                    cout << flag << endl;
                     Read(right_child, node.children[i + 1]);
                     if (right_child.n > MINN + flag) {
                         child.Insert(right_child.key[0], right_child.hash[0], right_child.children[0]);
