@@ -316,7 +316,7 @@ bool BPlusTree::Delete(char *key, int hash, Node &node) {
         if (i == node.n - 1 || judgement < 0 || (!judgement && hash < node.hash[i + 1])) {
             Node child;
             Read(child, node.children[i]);
-            bool status = Delete(key, hash, node);
+            bool status = Delete(key, hash, child);
             if (!status)
                 return false;
             if (child.n) {
