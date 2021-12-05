@@ -42,7 +42,7 @@ public:
         int index = sizeof_int * i;
         file.open(file_name);
         file.seekp(index);
-        file.write(reinterpret_cast<char *>(&value), sizeof_T);
+        file.write(reinterpret_cast<char *>(&value), sizeof_int);
         file.close();
     }
 
@@ -50,7 +50,7 @@ public:
         int index = sizeof_int * i;
         file.open(file_name);
         file.seekg(index);
-        file.read(reinterpret_cast<char *>(&value), sizeof_T);
+        file.read(reinterpret_cast<char *>(&value), sizeof_int);
         file.close();
     }
 
@@ -66,7 +66,7 @@ public:
         int index = sizeof_T * i + sizeof_int * n;
         file.open(file_name);
         file.seekg(index);
-        file.read(reinterpret_cast<char *>(&value), sizeof(T));
+        file.read(reinterpret_cast<char *>(&value), sizeof_T);
         file.close();
     }
 };
