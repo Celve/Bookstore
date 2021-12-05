@@ -54,6 +54,8 @@ class BPlusTree {
     char file_name[MAXS];
     fstream file;
     int n, r;
+    static const int sizeof_node = sizeof(Node);
+    static const int sizeof_int = sizeof(int);
 public:
     void DFSOutput(int index);
 

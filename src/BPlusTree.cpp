@@ -41,11 +41,9 @@ Node::Node(int _index, char *_key, int _hash, int _children) {
 }
 
 int Node::Find(char *_key, int _hash) {
-//    puts("wow");
     int l = 0, r = n - 1, res = n;
     while (l <= r) {
         int mid = (l + r) >> 1;
-//        cout << l << " " << r << " " << mid << endl;
         int judgement = strcmp(_key, key[mid]);
         if (judgement < 0 || (!judgement && _hash <= hash[mid])) {
             res = mid;
@@ -58,19 +56,6 @@ int Node::Find(char *_key, int _hash) {
 }
 
 bool Node::Insert(char *_key, int _hash, int _children) {
-    /*for (int i = 0; i < n; ++i) {
-        if (!strcmp(_key, key[i]) && _hash == hash[i])
-            return false;
-        int judgement = strcmp(_key, key[i]);
-        if (judgement < 0 || (!judgement && _hash < hash[i])) {
-            Shift(i);
-            strcpy(key[i], _key);
-            hash[i] = _hash;
-            children[i] = _children;
-            ++n;
-            return true;
-        }
-    }*/
     int p = Find(_key, _hash);
     if (p < n && !strcmp(_key, key[p]) && _hash == hash[p])
         return false;
@@ -90,14 +75,6 @@ bool Node::Delete(char *_key, int _hash) {
         return true;
     }
     return false;
-//    for (int i = 0; i < n; ++i) {
-//        if (!strcmp(_key, key[i]) && _hash == hash[i]) {
-//            DeShift(i);
-//            --n;
-//            return true;
-//        }
-//    }
-//    return false;
 }
 
 void Node::DeShift(int k) {
@@ -136,24 +113,24 @@ void Node::Merge(Node &node) {
 }
 
 void BPlusTree::Write(Node &node, int i) {
-    int index = sizeof(int) * 2 + sizeof(Node) * (i + 1);
+    int index = sizeof_int * 2 + sizeof_node * (i + 1);
     file.open(file_name);
     file.seekp(index);
-    file.write(reinterpret_cast<char *>(&node), sizeof(Node));
+    file.write(reinterpret_cast<char *>(&node), sizeof_node);
     file.close();
 }
 
 void BPlusTree::Read(Node &node, int i) {
-    int index = sizeof(int) * 2 + sizeof(Node) * (i + 1);
+    int index = sizeof_int * 2 + sizeof_node * (i + 1);
     file.open(file_name);
     file.seekg(index);
-    file.read(reinterpret_cast<char *>(&node), sizeof(Node));
+    file.read(reinterpret_cast<char *>(&node), sizeof_node);
     file.close();
 }
 
 void BPlusTree::AddBehind(Node &node, Node &pre_node) {
     Node next_node;
-    BPlusTree::Read(next_node, pre_node.next);
+    Read(next_node, pre_node.next);
     node.pre = pre_node.index;
     node.next = next_node.index;
     pre_node.next = node.index;
@@ -167,7 +144,7 @@ void BPlusTree::AddBehind(Node &node, Node &pre_node) {
 void BPlusTree::Initialize() {
     file.open(file_name, std::ios::out);
     n = 0;
-    file.write(reinterpret_cast<char *>(&n), sizeof(int));
+    file.write(reinterpret_cast<char *>(&n), sizeof_int);
     Node head, tail;
     head.next = tail.index = -1;
     tail.pre = head.index = -2;
@@ -184,8 +161,8 @@ BPlusTree::BPlusTree(char *_file_name) {
         Initialize();
     }
     else {
-        file.read(reinterpret_cast<char *>(&n), sizeof(int));
-        file.read(reinterpret_cast<char *>(&r), sizeof(int));
+        file.read(reinterpret_cast<char *>(&n), sizeof_int);
+        file.read(reinterpret_cast<char *>(&r), sizeof_int);
         file.close();
     }
 }
@@ -193,8 +170,8 @@ BPlusTree::BPlusTree(char *_file_name) {
 BPlusTree::~BPlusTree() {
     file.open(file_name);
     file.seekp(std::ios::beg);
-    file.write(reinterpret_cast<char *>(&n), sizeof(int));
-    file.write(reinterpret_cast<char *>(&r), sizeof(int));
+    file.write(reinterpret_cast<char *>(&n), sizeof_int);
+    file.write(reinterpret_cast<char *>(&r), sizeof_int);
     file.close();
 }
 
@@ -306,7 +283,7 @@ void BPlusTree::Find(char *key, vector<int> &value) {
         return;
     Node current;
     Read(current, index);
-    bool flag = false;
+    bool flag;
     do {
         flag = false;
         for (int i = 0; i < current.n; ++i)
