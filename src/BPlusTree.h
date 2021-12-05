@@ -35,6 +35,8 @@ public:
 
     Node(int _index, char *_key, int _hash, int _children);
 
+    int Find(char *_key, int _hash);
+
     bool Insert(char *_key, int _hash, int _children);
 
     bool Delete(char *_key, int _hash);

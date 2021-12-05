@@ -40,8 +40,22 @@ Node::Node(int _index, char *_key, int _hash, int _children) {
     children[0] = _children;
 }
 
+int Node::Find(char *_key, int _hash) {
+    int l = 0, r = n - 1, res = n;
+    while (l <= r) {
+        int mid = (l + r) >> 1;
+        int judgement = strcmp(_key, key[mid]);
+        if (judgement < 0 || (!judgement && _hash <= hash[mid])) {
+            res = mid;
+            r = mid - 1;
+        }
+            l = mid + 1;
+    }
+    return res;
+}
+
 bool Node::Insert(char *_key, int _hash, int _children) {
-    for (int i = 0; i < n; ++i) {
+    /*for (int i = 0; i < n; ++i) {
         if (!strcmp(_key, key[i]) && _hash == hash[i])
             return false;
         int judgement = strcmp(_key, key[i]);
@@ -53,22 +67,34 @@ bool Node::Insert(char *_key, int _hash, int _children) {
             ++n;
             return true;
         }
-    }
-    strcpy(key[n], _key);
-    hash[n] = _hash;
-    children[n++] = _children;
+    }*/
+    int p = Find(_key, _hash);
+    if (p < n && !strcmp(_key, key[p]) && _hash == hash[p])
+        return false;
+    Shift(p);
+    strcpy(key[p], _key);
+    hash[p] = _hash;
+    children[p] = _children;
+    ++n;
     return true;
 }
 
 bool Node::Delete(char *_key, int _hash) {
-    for (int i = 0; i < n; ++i) {
-        if (!strcmp(_key, key[i]) && _hash == hash[i]) {
-            DeShift(i);
-            --n;
-            return true;
-        }
+    int p = Find(_key, _hash);
+    if (!strcmp(_key, key[p]) && _hash == hash[p]) {
+        DeShift(p);
+        --n;
+        return true;
     }
     return false;
+//    for (int i = 0; i < n; ++i) {
+//        if (!strcmp(_key, key[i]) && _hash == hash[i]) {
+//            DeShift(i);
+//            --n;
+//            return true;
+//        }
+//    }
+//    return false;
 }
 
 void Node::DeShift(int k) {
@@ -350,7 +376,6 @@ bool BPlusTree::Delete(char *key, int hash, int index) {
                     }
                 }
                 if (i != 0) {
-//                    puts("left merge");
                     node.DeShift(i);
                     --node.n;
                     left_child.Merge(child);
@@ -363,7 +388,6 @@ bool BPlusTree::Delete(char *key, int hash, int index) {
                     Write(node, node.index);
                     Write(temp, child.index);
                 } else if (i != node.n - 1) {
-//                    puts("right merge");
                     node.DeShift(i);
                     --node.n;
                     child.Merge(right_child);
