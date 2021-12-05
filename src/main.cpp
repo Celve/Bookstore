@@ -9,34 +9,33 @@ using namespace std;
 int n;
 vector<int> ans;
 
-
+char opt[65], ptr[65];
 
 int main() {
     BPlusTree system("data.dat");
 //    system.Initialize();
-    string opt, index;
     int value;
-    cin >> n;
+    scanf("%d", &n);
     for (int i = 1; i <= n; ++i) {
-        cin >> opt >> index;
+        scanf("%s%s", opt, ptr);
         if (opt == "insert") {
-            cin >> value;
-            system.Insert(index.c_str(), value);
+            scanf("%d", &value);
+            system.Insert(ptr, value);
         }
         else if (opt == "find") {
             ans.clear();
-            system.Find(index.c_str(), ans);
+            system.Find(ptr, ans);
             if (!ans.size()) {
                 puts("null");
                 continue;
             }
             for (int i = 0; i < ans.size(); ++i)
-                cout << ans[i] << " ";
-            cout << endl;
+                printf("%d ", ans[i]);
+            puts("");
         }
         else {
             cin >> value;
-            system.Delete(index.c_str(), value);
+            system.Delete(ptr, value);
         }
 //        system.Output();
     }

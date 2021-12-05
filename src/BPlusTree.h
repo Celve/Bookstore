@@ -33,11 +33,11 @@ public:
 
     explicit Node(int index = -2);
 
-    Node(int _index, const char *_key, int _hash, const int _children);
+    Node(int _index, char *_key, int _hash, int _children);
 
-    bool Insert(const char *_key, int _hash, const int _children);
+    bool Insert(char *_key, int _hash, int _children);
 
-    bool Delete(const char *_key, int _hash);
+    bool Delete(char *_key, int _hash);
 
     void Shift(int k);
 
@@ -69,21 +69,21 @@ public:
 
     void AddBehind(Node &node, Node &next_node);
 
-    bool Insert(const char *key, int value, int index);
+    bool Insert(char *key, int value, int index);
 
-    bool Insert(const char *key, int value);
+    bool Insert(char *key, int value);
 
-    int Find(const char *key, int hash, int index);
+    int Find(char *key, int hash, int index);
 
-    int Find(const char *key, int hash);
+    int Find(char *key, int hash);
 
-    bool Delete(const char *key, int hash, int index);
+    bool Delete(char *key, int hash, int index);
 
-    bool Delete(const char *key, int hash);
+    bool Delete(char *key, int hash);
 
-    int FindPtr(const char *key, int index);
+    int FindPtr(char *key, int index);
 
-    void Find(const char *key, vector<int> &value);
+    void Find(char *key, vector<int> &value);
 };
 
 #endif //BOOKSTORE_BPLUSTREE_H

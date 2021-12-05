@@ -30,7 +30,7 @@ Node::Node(int index): index(index) {
     is_leaf = false;
 }
 
-Node::Node(int _index, const char *_key, int _hash, const int _children) {
+Node::Node(int _index, char *_key, int _hash, int _children) {
     index = _index;
     pre = next = -3;
     n = 1;
@@ -40,7 +40,7 @@ Node::Node(int _index, const char *_key, int _hash, const int _children) {
     children[0] = _children;
 }
 
-bool Node::Insert(const char *_key, int _hash, const int _children) {
+bool Node::Insert(char *_key, int _hash, int _children) {
     for (int i = 0; i < n; ++i) {
         if (!strcmp(_key, key[i]) && _hash == hash[i])
             return false;
@@ -59,7 +59,7 @@ bool Node::Insert(const char *_key, int _hash, const int _children) {
     return true;
 }
 
-bool Node::Delete(const char *_key, int _hash) {
+bool Node::Delete(char *_key, int _hash) {
     for (int i = 0; i < n; ++i) {
         if (!strcmp(_key, key[i]) && _hash == hash[i]) {
             DeShift(i);
@@ -168,7 +168,7 @@ BPlusTree::~BPlusTree() {
     file.close();
 }
 
-bool BPlusTree::Insert(const char *key, int value, int index) {
+bool BPlusTree::Insert(char *key, int value, int index) {
     Node node;
     Read(node, index);
     if (node.is_leaf) {
@@ -209,7 +209,7 @@ bool BPlusTree::Insert(const char *key, int value, int index) {
     return false;
 }
 
-bool BPlusTree::Insert(const char *key, int value) {
+bool BPlusTree::Insert(char *key, int value) {
     Node temp;
     Read(temp, r);
     if (!temp.n) {
@@ -239,7 +239,7 @@ bool BPlusTree::Insert(const char *key, int value) {
     return true;
 }
 
-int BPlusTree::Find(const char *key, int hash, int index) {
+int BPlusTree::Find(char *key, int hash, int index) {
     Node node;
     Read(node, index);
     if (node.is_leaf) {
@@ -254,11 +254,11 @@ int BPlusTree::Find(const char *key, int hash, int index) {
     return -1;
 }
 
-int BPlusTree::Find(const char *key, int hash) {
+int BPlusTree::Find(char *key, int hash) {
     return Find(key, hash, r);
 }
 
-int BPlusTree::FindPtr(const char *key, int index) {
+int BPlusTree::FindPtr(char *key, int index) {
     Node node;
     Read(node, index);
     if (node.is_leaf)
@@ -269,7 +269,7 @@ int BPlusTree::FindPtr(const char *key, int index) {
     return -1;
 }
 
-void BPlusTree::Find(const char *key, vector<int> &value) {
+void BPlusTree::Find(char *key, vector<int> &value) {
     int index = FindPtr(key, r);
     if (index == -1)
         return;
@@ -291,7 +291,7 @@ void BPlusTree::Find(const char *key, vector<int> &value) {
     sort(value.begin(), value.end());
 }
 
-bool BPlusTree::Delete(const char *key, int hash, int index) {
+bool BPlusTree::Delete(char *key, int hash, int index) {
     Node node;
     Read(node, index);
     if (node.is_leaf) {
@@ -336,8 +336,6 @@ bool BPlusTree::Delete(const char *key, int hash, int index) {
                     }
                 }
                 if (i != node.n - 1) {
-//                    puts("right lend");
-//                    cout << flag << endl;
                     Read(right_child, node.children[i + 1]);
                     if (right_child.n > MINN + flag) {
                         child.Insert(right_child.key[0], right_child.hash[0], right_child.children[0]);
@@ -400,6 +398,6 @@ bool BPlusTree::Delete(const char *key, int hash, int index) {
     return false;
 }
 
-bool BPlusTree::Delete(const char *key, int hash) {
+bool BPlusTree::Delete(char *key, int hash) {
     Delete(key, hash, r);
 }
