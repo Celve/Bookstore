@@ -8,6 +8,7 @@
 #include <fstream>
 
 using std::fstream;
+using std::string;
 
 template<class T, int n = 2>
 class File {
