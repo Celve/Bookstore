@@ -12,14 +12,6 @@ vector<int> ans;
 char opt[65], ptr[65];
 
 int main() {
-//    cin >> opt;
-//    Node temp;
-//    temp.Insert(opt, 1, 1);
-//    temp.Insert(opt, 2, 2);
-//    temp.Insert(opt, 3, 3);
-//    cout << temp.Find(opt, 2) << endl;
-//    cout << temp.Find(opt, 1) << endl;
-//    cout << temp.Find(opt, 3) << endl;
     BPlusTree system("data.dat");
 //    system.Initialize();
     int value;
