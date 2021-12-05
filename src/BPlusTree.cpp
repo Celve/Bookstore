@@ -303,24 +303,22 @@ void BPlusTree::Find(char *key, vector<int> &value) {
     sort(value.begin(), value.end());
 }
 
-bool BPlusTree::Delete(char *key, int hash, int index) {
-    Node node;
-    Read(node, index);
+bool BPlusTree::Delete(char *key, int hash, Node &node) {
     if (node.is_leaf) {
         bool status = node.Delete(key, hash);
         if (!status)
             return false;
-        Write(node, index);
+        Write(node, node.index);
         return true;
     }
     for (int i = 0; i < node.n; ++i) {
         int judgement = strcmp(key, node.key[i + 1]);
         if (i == node.n - 1 || judgement < 0 || (!judgement && hash < node.hash[i + 1])) {
-            bool status = Delete(key, hash, node.children[i]);
-            if (!status)
-                return false;
             Node child;
             Read(child, node.children[i]);
+            bool status = Delete(key, hash, node);
+            if (!status)
+                return false;
             if (child.n) {
                 strcpy(node.key[i], child.key[0]);
                 node.hash[i] = child.hash[0];
@@ -338,7 +336,7 @@ bool BPlusTree::Delete(char *key, int hash, int index) {
                         child.Insert(left_child.key[left_child.n], left_child.hash[left_child.n], left_child.children[left_child.n]);
                         strcpy(node.key[i], child.key[0]);
                         node.hash[i] = child.hash[0];
-                        Write(node, index);
+                        Write(node, node.index);
                         Write(left_child, left_child.index);
                         Write(child, child.index);
                         return true;
@@ -352,7 +350,7 @@ bool BPlusTree::Delete(char *key, int hash, int index) {
                         --right_child.n;
                         strcpy(node.key[i + 1], right_child.key[0]);
                         node.hash[i + 1] = right_child.hash[0];
-                        Write(node, index);
+                        Write(node, node.index);
                         Write(right_child, right_child.index);
                         Write(child, child.index);
                         return true;
@@ -390,7 +388,7 @@ bool BPlusTree::Delete(char *key, int hash, int index) {
                     Write(temp, child.index);
                 }
                 Write(node, node.index);
-                if (index == r && node.n == 1 && !child.is_leaf) {
+                if (node.index == r && node.n == 1 && !child.is_leaf) {
                     Write(temp, r);
                     r = node.children[0];
                 }
@@ -405,5 +403,7 @@ bool BPlusTree::Delete(char *key, int hash, int index) {
 }
 
 bool BPlusTree::Delete(char *key, int hash) {
-    Delete(key, hash, r);
+    Node root;
+    Read(root, r);
+    Delete(key, hash, root);
 }

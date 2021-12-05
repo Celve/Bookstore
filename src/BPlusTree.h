@@ -81,7 +81,7 @@ public:
 
     int Find(char *key, int hash);
 
-    bool Delete(char *key, int hash, int index);
+    bool Delete(char *key, int hash, Node &node);
 
     bool Delete(char *key, int hash);
 
