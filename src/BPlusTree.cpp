@@ -244,9 +244,7 @@ bool BPlusTree::Insert(char *key, int value) {
     return true;
 }
 
-int BPlusTree::Find(char *key, int hash, int index) {
-    Node node;
-    Read(node, index);
+int BPlusTree::Find(char *key, int hash, Node &node) {
     if (node.is_leaf) {
         for (int i = node.n - 1; i >= 0; --i)
             if (!strcmp(key, node.key[i]) && hash == node.hash[i])
@@ -255,28 +253,36 @@ int BPlusTree::Find(char *key, int hash, int index) {
     }
     for (int i = 1; i <= node.n; ++i) {
         int judgement = strcmp(key, node.key[i]);
-        if (i == node.n || judgement < 0 || !judgement && hash < node.hash[i])
-            return Find(key, hash, node.children[i - 1]);
+        if (i == node.n || judgement < 0 || !judgement && hash < node.hash[i]) {
+            Node child;
+            Read(child, node.children[i - 1]);
+            return Find(key, hash, child);
+        }
     }
     return -1;
 }
 
 int BPlusTree::Find(char *key, int hash) {
-    return Find(key, hash, r);
+    Node root;
+    Read(root, r);
+    return Find(key, hash, root);
 }
 
-int BPlusTree::FindPtr(char *key, int index) {
-    Node node;
-    Read(node, index);
+int BPlusTree::FindPtr(char *key, Node &node) {
     if (node.is_leaf)
-        return index;
+        return node.index;
     for (int i = 1; i <= node.n; ++i)
-        if (i == node.n || strcmp(key, node.key[i]) < 0)
-            return FindPtr(key, node.children[i - 1]);
+        if (i == node.n || strcmp(key, node.key[i]) < 0) {
+            Node child;
+            Read(child, node.children[i - 1]);
+            return FindPtr(key, child);
+        }
     return -1;
 }
 void BPlusTree::Find(char *key, vector<int> &value) {
-    int index = FindPtr(key, r);
+    Node root;
+    Read(root, r);
+    int index = FindPtr(key, root);
     if (index == -1)
         return;
     Node current;

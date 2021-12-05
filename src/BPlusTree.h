@@ -77,7 +77,7 @@ public:
 
     bool Insert(char *key, int value);
 
-    int Find(char *key, int hash, int index);
+    int Find(char *key, int hash, Node &node);
 
     int Find(char *key, int hash);
 
@@ -85,7 +85,7 @@ public:
 
     bool Delete(char *key, int hash);
 
-    int FindPtr(char *key, int index);
+    int FindPtr(char *key, Node &node);
 
     void Find(char *key, vector<int> &value);
 };
