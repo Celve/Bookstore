@@ -318,6 +318,7 @@ bool BPlusTree::Delete(const char *key, int hash, int index) {
             }
             int flag = !child.is_leaf;
             if (child.n && child.n < MINN + flag) {
+//                puts("gethere");
                 Node left_child, right_child, temp;
                 if (i != 0) {
 //                    puts("left lend");
@@ -349,6 +350,7 @@ bool BPlusTree::Delete(const char *key, int hash, int index) {
                     }
                 }
                 if (i != 0) {
+//                    puts("left merge");
                     node.DeShift(i);
                     --node.n;
                     left_child.Merge(child);
@@ -362,6 +364,7 @@ bool BPlusTree::Delete(const char *key, int hash, int index) {
                     Write(temp, child.index);
                 }
                 else if (i != node.n - 1) {
+//                    puts("right merge");
                     node.DeShift(i);
                     --node.n;
                     child.Merge(right_child);
@@ -380,6 +383,7 @@ bool BPlusTree::Delete(const char *key, int hash, int index) {
                     Write(node, node.index);
                     Write(temp, child.index);
                 }
+                Write(node, node.index);
                 if (index == r && node.n == 1 && !child.is_leaf) {
                     Write(temp, r);
                     r = node.children[0];
@@ -388,7 +392,7 @@ bool BPlusTree::Delete(const char *key, int hash, int index) {
             }
             else {
                 Write(node, node.index);
-                return true;
+//                return true;
             }
         }
     return false;
