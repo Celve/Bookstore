@@ -78,4 +78,58 @@
  *          Cost: number and .; max length = 13; 2-bit precision
  */
 
+#include <cstring>
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <unordered_map>
+#include <vector>
+#include <fstream>
+#include "File.h"
+
+using std::string;
+using std::unordered_map;
+using std::vector;
+using std::stod;
+using std::fstream;
+
+class Book {
+public:
+    char ISBN[21];
+    char name[61];
+    char author[61];
+    int n;
+    char keyword[61][61];
+    double price;
+    int quantity;
+    double total_cost;
+
+    Book();
+
+    Book(string _ISBN);
+
+    bool ModifyISBN(string _ISBN);
+
+    bool ModifyName(string _name);
+
+    bool ModifyAuthor(string _author);
+
+    bool ModifyKeyword(string _keyword);
+
+    bool ModifyPrice(string _price);
+};
+
+class BookSystem {
+    int n;
+    Book selected;
+    File<Book, 1> file;
+
+public:
+    void Initialize();
+
+    BookSystem(string file_name);
+
+
+};
+
 #endif //BOOKSTORE_BOOKS_H

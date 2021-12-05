@@ -113,19 +113,11 @@ void Node::Merge(Node &node) {
 }
 
 void BPlusTree::Write(Node &node, int i) {
-    int index = sizeof_int * 2 + sizeof_node * (i + 1);
-    file.open(file_name);
-    file.seekp(index);
-    file.write(reinterpret_cast<char *>(&node), sizeof_node);
-    file.close();
+    file.Write(node, i + 2);
 }
 
 void BPlusTree::Read(Node &node, int i) {
-    int index = sizeof_int * 2 + sizeof_node * (i + 1);
-    file.open(file_name);
-    file.seekg(index);
-    file.read(reinterpret_cast<char *>(&node), sizeof_node);
-    file.close();
+    file.Read(node, i + 2);
 }
 
 void BPlusTree::AddBehind(Node &node, Node &pre_node) {
@@ -142,37 +134,38 @@ void BPlusTree::AddBehind(Node &node, Node &pre_node) {
 
 //n; head; tail; ...
 void BPlusTree::Initialize() {
-    file.open(file_name, std::ios::out);
-    n = 0;
-    file.write(reinterpret_cast<char *>(&n), sizeof_int);
+//    file.open(file_name, std::ios::out);
+//    n = 0;
+//    file.write(reinterpret_cast<char *>(&n), sizeof_int);
+//    Node head, tail;
+//    head.next = tail.index = -1;
+//    tail.pre = head.index = -2;
+//    Write(head, -2);
+//    Write(tail, -1);
+//    file.close();
+    file.Initialize();
+    n = r = 0;
+    file.WriteInfo(n, 0);
+    file.WriteInfo(r, 1);
     Node head, tail;
     head.next = tail.index = -1;
     tail.pre = head.index = -2;
     Write(head, -2);
     Write(tail, -1);
-    file.close();
 }
 
-BPlusTree::BPlusTree(char *_file_name) {
-    strcpy(file_name, _file_name);
-    file.open(file_name);
-    if (!file.good()) {
-        file.close();
+BPlusTree::BPlusTree(char *file_name): file(file_name) {
+    if (!file.IsExist())
         Initialize();
-    }
     else {
-        file.read(reinterpret_cast<char *>(&n), sizeof_int);
-        file.read(reinterpret_cast<char *>(&r), sizeof_int);
-        file.close();
+        file.ReadInfo(n, 0);
+        file.ReadInfo(r, 1);
     }
 }
 
 BPlusTree::~BPlusTree() {
-    file.open(file_name);
-    file.seekp(std::ios::beg);
-    file.write(reinterpret_cast<char *>(&n), sizeof_int);
-    file.write(reinterpret_cast<char *>(&r), sizeof_int);
-    file.close();
+    file.WriteInfo(n, 0);
+    file.WriteInfo(r, 1);
 }
 
 bool BPlusTree::Insert(char *key, int value, Node &node) {

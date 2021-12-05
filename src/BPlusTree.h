@@ -15,6 +15,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include "File.h"
 
 using std::fstream;
 using std::swap;
@@ -52,10 +53,8 @@ public:
 
 class BPlusTree {
     char file_name[MAXS];
-    fstream file;
+    File<Node> file;
     int n, r;
-    static const int sizeof_node = sizeof(Node);
-    static const int sizeof_int = sizeof(int);
 public:
     void DFSOutput(int index);
 
@@ -63,7 +62,7 @@ public:
 
     void Initialize();
 
-    BPlusTree(char *fileName);
+    BPlusTree(char *file_name);
 
     ~BPlusTree();
 
