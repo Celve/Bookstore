@@ -41,15 +41,18 @@ Node::Node(int _index, char *_key, int _hash, int _children) {
 }
 
 int Node::Find(char *_key, int _hash) {
+//    puts("wow");
     int l = 0, r = n - 1, res = n;
     while (l <= r) {
         int mid = (l + r) >> 1;
+//        cout << l << " " << r << " " << mid << endl;
         int judgement = strcmp(_key, key[mid]);
         if (judgement < 0 || (!judgement && _hash <= hash[mid])) {
             res = mid;
-            l = mid + 1;
-        }
             r = mid - 1;
+        }
+        else
+            l = mid + 1;
     }
     return res;
 }
@@ -81,7 +84,7 @@ bool Node::Insert(char *_key, int _hash, int _children) {
 
 bool Node::Delete(char *_key, int _hash) {
     int p = Find(_key, _hash);
-    if (!strcmp(_key, key[p]) && _hash == hash[p]) {
+    if (p < n && !strcmp(_key, key[p]) && _hash == hash[p]) {
         DeShift(p);
         --n;
         return true;
@@ -297,7 +300,6 @@ int BPlusTree::FindPtr(char *key, int index) {
             return FindPtr(key, node.children[i - 1]);
     return -1;
 }
-
 void BPlusTree::Find(char *key, vector<int> &value) {
     int index = FindPtr(key, r);
     if (index == -1)
