@@ -48,7 +48,7 @@ bool LogSystem::ShowFinanceLog(int time) {
         else
             expenditure += cur.money;
     }
-    cout << "+ " << revenue << " - " << expenditure << endl;
+    cout << fixed << std::setprecision(2)<< "+ " << revenue << " - " << expenditure << endl;
     return true;
 }
 

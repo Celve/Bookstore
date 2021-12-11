@@ -29,6 +29,9 @@
 #include "File.h"
 #include "Book.h"
 
+using std::setprecision;
+using std::fixed;
+
 class FinanceLog {
 private:
     char command[21];
