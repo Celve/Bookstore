@@ -86,7 +86,9 @@ public:
 
     int FindPtr(char *key, Node &node);
 
-    void Find(char *key, vector<int> &value);
+    bool Find(char *key, vector<int> &value);
+
+    void Traverse(vector<int> &value);
 };
 
 #endif //BOOKSTORE_BPLUSTREE_H

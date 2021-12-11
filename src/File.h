@@ -6,6 +6,7 @@
 #define BOOKSTORE_FILE_H
 
 #include <fstream>
+#include <cstring>
 
 using std::fstream;
 using std::string;
@@ -31,7 +32,7 @@ public:
         strcpy(file_name, _file_name.c_str());
     }
 
-    bool IsExist() {
+    bool IsExisted() {
         file.open(file_name);
         bool status = file.good();
         file.close();

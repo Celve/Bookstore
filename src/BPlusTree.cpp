@@ -10,7 +10,7 @@ void BPlusTree::Output() {
     for (int i = 0; i < n; ++i) {
         Node temp;
         Read(temp, i);
-        cout << i << "(" << temp.is_leaf << ")"<< ": ";
+        cout << i << "(" << temp.is_leaf << " " << temp.pre << " " << temp.next << ")"<< ": ";
         for (int j = 0; j < temp.n; ++j)
             cout << temp.key[j] << " ";
         cout << "| ";
@@ -134,15 +134,6 @@ void BPlusTree::AddBehind(Node &node, Node &pre_node) {
 
 //n; head; tail; ...
 void BPlusTree::Initialize() {
-//    file.open(file_name, std::ios::out);
-//    n = 0;
-//    file.write(reinterpret_cast<char *>(&n), sizeof_int);
-//    Node head, tail;
-//    head.next = tail.index = -1;
-//    tail.pre = head.index = -2;
-//    Write(head, -2);
-//    Write(tail, -1);
-//    file.close();
     file.Initialize();
     n = r = 0;
     file.WriteInfo(n, 0);
@@ -155,7 +146,7 @@ void BPlusTree::Initialize() {
 }
 
 BPlusTree::BPlusTree(char *file_name): file(file_name) {
-    if (!file.IsExist())
+    if (!file.IsExisted())
         Initialize();
     else {
         file.ReadInfo(n, 0);
@@ -213,9 +204,12 @@ bool BPlusTree::Insert(char *key, int value) {
     if (!temp.n) {
         n = 2;
         r = 0;
-        Node root(0, key, value, 1), node(1, key, value, value), head;
+        Node root(0, key, value, 1), node(1, key, value, value), head, tail;
         node.is_leaf = true;
-        Read(head, -2);
+        head.next = tail.index = -1;
+        tail.pre = head.index = -2;
+        Write(head, -2);
+        Write(tail, -1);
         AddBehind(node, head);
         Write(root, root.index);
         return true;
@@ -272,12 +266,13 @@ int BPlusTree::FindPtr(char *key, Node &node) {
         }
     return -1;
 }
-void BPlusTree::Find(char *key, vector<int> &value) {
+
+bool BPlusTree::Find(char *key, vector<int> &value) {
     Node root;
     Read(root, r);
     int index = FindPtr(key, root);
     if (index == -1)
-        return;
+        return false;
     Node current;
     Read(current, index);
     bool flag;
@@ -294,6 +289,7 @@ void BPlusTree::Find(char *key, vector<int> &value) {
             break;
     } while (flag);
     sort(value.begin(), value.end());
+    return value.size();
 }
 
 bool BPlusTree::Delete(char *key, int hash, Node &node) {
@@ -399,4 +395,15 @@ bool BPlusTree::Delete(char *key, int hash) {
     Node root;
     Read(root, r);
     Delete(key, hash, root);
+}
+
+void BPlusTree::Traverse(vector<int> &value) {
+    Node current;
+    Read(current, -2);
+    Read(current, current.next);
+    while (current.index != -1) {
+        for (int i = 0; i < current.n; ++i)
+            value.push_back(current.children[i]);
+        Read(current, current.next);
+    }
 }

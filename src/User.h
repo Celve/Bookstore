@@ -49,4 +49,81 @@
  *          Priority: {7, 3, 1}
  */
 
+#include <stack>
+#include <cstring>
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <unordered_map>
+#include "BPlusTree.h"
+#include "File.h"
+#include "Book.h"
+
+using std::stack;
+using std::string;
+using std::unordered_map;
+using std::pair;
+using std::max;
+
+class User {
+    char id[31];
+    char name[31];
+    char password[31];
+    int priority;
+
+public:
+    friend class UserSystem;
+
+    User();
+
+    User(char *_id, char *_name, char *_password, int priority);
+};
+
+class UserPair {
+public:
+    int book;
+    int user;
+
+    UserPair(int user = -1);
+
+    void Select(int _book);
+};
+
+class UserSystem {
+    vector<UserPair> users;
+    unordered_map<int, int> online;
+    File<User, 1> file;
+    BPlusTree id_index;
+    int n;
+
+public:
+    UserSystem();
+
+    ~UserSystem();
+
+    void Initialize();
+
+    void Output();
+
+    bool Su(string &ID, string &password);
+
+    bool LogOut();
+
+    bool Register(string &_id, string &_password, string &_name);
+
+    bool Passwd(string &_id, string &_old_password, string &_new_password);
+
+    bool UserAdd(string &_id, string &_password, string &_priority, string &_name);
+
+    bool Delete(string &_id);
+
+    bool Select(int book);
+
+    int Book();
+
+    bool CheckPriority(int priority);
+
+    bool IsEmpty();
+};
+
 #endif //BOOKSTORE_USERS_H

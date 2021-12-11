@@ -1,0 +1,21 @@
+su root sjtu
+useradd Okami 123456 7 Okami
+su Okami 123456
+su root sjtu
+
+register UserA 123 UserA
+register UserB 123 UserB
+register UserC 123 UserC
+su root sjtu
+useradd Okami 123 7 Okami
+su Okami 123
+useradd Essein 123 3 Essein
+su Essein
+useradd Wow 123 7 Wow
+delete UserA
+logout
+useradd Wow 123 7 Wow
+delete UserA
+delete UserB
+delete UserC
+delete Okami
