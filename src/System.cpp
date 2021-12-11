@@ -19,10 +19,8 @@ void System::Initialize() {
 void System::Run(string &command) {
     vector<string> split;
     Split(command, split);
-    if (split.empty()) {
-        puts("Invalid");
+    if (split.empty())
         return ;
-    }
     try {
         if (split.size() >= 2 && split[0] == "show" && split[1] == "finance")
             ShowFinance(split);
