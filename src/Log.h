@@ -53,6 +53,8 @@ public:
 
     LogSystem();
 
+    ~LogSystem();
+
     void AddFinanceLog(string &command, Book book, int quantity, double money);
 
     bool ShowFinanceLog(int time = NONE);

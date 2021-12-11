@@ -51,3 +51,7 @@ bool LogSystem::ShowFinanceLog(int time) {
     cout << "+ " << revenue << " - " << expenditure << endl;
     return true;
 }
+
+LogSystem::~LogSystem() {
+    finance.WriteInfo(n, 0);
+}
