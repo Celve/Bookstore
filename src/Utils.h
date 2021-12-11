@@ -58,9 +58,10 @@ static bool CheckKeyword(string keyword, vector<string> &list) {
         start = end + 1;
         end = keyword.find('|', end + 1);
     }
-//    sort(list.begin(), list.end());
+    vector<string> temp = list;
+    sort(temp.begin(), temp.end());
     for (int i = 0; i < list.size() - 1; ++i)
-        if (list[i] == list[i + 1])
+        if (temp[i] == temp[i + 1])
             return false;
     return true;
 }
