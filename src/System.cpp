@@ -134,7 +134,7 @@ void System::Modify(vector<string> &list) {
     }
     sort(factor.begin(), factor.end());
     for (int i = 1; i < factor.size(); ++i)
-        if (factor[i] == factor[i - 1])
+        if (factor[i].first == factor[i - 1].first)
             throw Exception();
     string isbn, name, author, price;
     for (int i = 0; i < factor.size(); ++i)
