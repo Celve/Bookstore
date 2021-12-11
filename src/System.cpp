@@ -213,7 +213,7 @@ void System::Import(vector<string> &list) {
 }
 
 void System::ShowFinance(vector<string> &list) {
-    if (list.size() > 3)
+    if (list.size() > 3 || !user_system.CheckPriority(7))
         throw Exception();
     if (list.size() == 2 && !log_system.ShowFinanceLog())
         throw Exception();
