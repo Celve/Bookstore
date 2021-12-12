@@ -13,6 +13,15 @@ using std::string;
 using std::vector;
 using std::pair;
 
+static bool CheckCommand(string &command) {
+    if (command.size() > 512)
+        return false;
+    for (int i = 0; i < command.size(); ++i)
+        if (!isascii(command[i]))
+            return false;
+    return true;
+}
+
 static void Split(string &command, vector<string> &res) {
     res.clear();
     bool is_string = false;

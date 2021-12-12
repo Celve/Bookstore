@@ -23,7 +23,7 @@ void System::Run(string &command) {
     if (split.empty())
         return ;
     try {
-        if (command.size() > 512)
+        if (!CheckCommand(command))
             throw Exception();
         if (split.size() >= 2 && split[0] == "show" && split[1] == "finance")
             ShowFinance(split);
