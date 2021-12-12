@@ -110,7 +110,7 @@ public:
     int n;
     char keyword[61][61];
     double price;
-    long long quantity;
+    int quantity;
     double total_cost;
 
     Book();
