@@ -105,7 +105,14 @@ static bool CheckDot(string &dot) {
             return false;
         else if (dot[i] == '.')
             ++sum;
-    return sum <= 1;
+    if (sum >= 2)
+        return false;
+    if (!sum)
+        return true;
+    int p = dot.find('.');
+    if (dot.size() - p - 1 > 2)
+        dot = dot.substr(0, dot.size() - (dot.size() - p - 3));
+    return true;
 }
 
 static bool CheckMixed(string &mixed) {
