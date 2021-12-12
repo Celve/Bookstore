@@ -24,23 +24,18 @@ static bool CheckCommand(string &command) {
 
 static void Split(string &command, vector<string> &res) {
     res.clear();
-    bool is_string = false;
     string current;
     for (int i = 0; i < command.size(); ++i) {
-        if (command[i] == '\"')
-            is_string ^= 1;
-        if (command[i] == ' ' && !is_string) {
+        if (command[i] == ' ') {
             if (!current.empty()) {
                 res.push_back(current);
                 current.clear();
             }
             continue;
         }
-        if (current.empty() && iscntrl(command[i]))
-            continue;
         current.push_back(command[i]);
     }
-    if (current.size())
+    if (!current.empty())
         res.push_back(current);
 }
 
@@ -98,7 +93,7 @@ static bool CheckQuote(string &quote) {
 static bool CheckQuantity(string &quantity) {
     if (quantity.size() > 10 || quantity.empty())
         return false;
-    if (quantity.size() >= 1 && quantity[0] == '0')
+    if (quantity.size() > 1 && quantity[0] == '0')
         return false;
     for (int i = 0; i < quantity.size(); ++i)
         if (!isdigit(quantity[i]))
