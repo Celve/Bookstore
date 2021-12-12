@@ -119,6 +119,8 @@ static bool CheckDot(string &dot) {
     if (!sum)
         return true;
     int p = dot.find('.');
+    if (!p)
+        return false;
     if (dot.size() - p - 1 > 2)
         dot = dot.substr(0, dot.size() - (dot.size() - p - 3));
     return true;
