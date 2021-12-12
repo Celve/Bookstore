@@ -14,7 +14,7 @@ using std::vector;
 using std::pair;
 
 static bool CheckCommand(string &command) {
-    if (command.size() > 512)
+    if (command.size() > 1024)
         return false;
     for (int i = 0; i < command.size(); ++i)
         if (!isascii(command[i]))
