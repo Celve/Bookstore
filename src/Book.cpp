@@ -194,6 +194,8 @@ bool BookSystem::Modify(string &isbn, string &name, string &author, vector<strin
 bool BookSystem::Import(string &quantity, string &total_cost) {
     if (address == -1)
         return false;
+    if (stoi(quantity) == 0)
+        return false;
     selected.quantity += stoi(quantity);
     selected.total_cost += stod(total_cost);
     file.Write(selected, address);
