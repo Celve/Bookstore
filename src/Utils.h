@@ -96,6 +96,8 @@ static bool CheckQuote(string &quote) {
 static bool CheckQuantity(string &quantity) {
     if (quantity.size() > 10 || quantity.empty())
         return false;
+    if (quantity.size() > 1 && quantity[0] == '0')
+        return false;
     for (int i = 0; i < quantity.size(); ++i)
         if (!isdigit(quantity[i]))
             return false;
@@ -107,6 +109,8 @@ static bool CheckQuantity(string &quantity) {
 
 static bool CheckDot(string &dot) {
     if (dot.size() > 13 || dot.empty())
+        return false;
+    if (dot.size() >= 2 && dot[0] == '0' && dot[1] != '.')
         return false;
     int sum = 0;
     for (int i = 0; i < dot.size(); ++i)
