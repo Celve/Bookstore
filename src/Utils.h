@@ -98,7 +98,7 @@ static bool CheckQuote(string &quote) {
 static bool CheckQuantity(string &quantity) {
     if (quantity.size() > 10 || quantity.empty())
         return false;
-    if (quantity.size() > 1 && quantity[0] == '0')
+    if (quantity.size() >= 1 && quantity[0] == '0')
         return false;
     for (int i = 0; i < quantity.size(); ++i)
         if (!isdigit(quantity[i]))
