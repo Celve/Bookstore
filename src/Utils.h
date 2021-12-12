@@ -36,6 +36,8 @@ static void Split(string &command, vector<string> &res) {
             }
             continue;
         }
+        if (current.empty() && iscntrl(command[i]))
+            continue;
         current.push_back(command[i]);
     }
     if (current.size())
