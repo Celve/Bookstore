@@ -13,8 +13,11 @@ using namespace std;
 System bookstore;
 
 int main() {
+//    string temp = "1.2233";
+//    CheckDot(temp);
+//    cout << temp << endl;
 //    freopen("test.out", "w", stdout);
-//    bookstore.Initialize();
+    bookstore.Initialize();
     string command;
     while (getline(cin, command)) {
 //        cout << command << endl;

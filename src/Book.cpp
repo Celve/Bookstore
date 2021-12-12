@@ -64,7 +64,7 @@ void BookSystem::Output() {
 }
 
 bool BookSystem::ShowCommon(string &_key, BPlusTree &common_index, vector<Book> &res) {
-    char key[MAXS + 1];
+    char key[61];
     strcpy(key, _key.c_str());
     vector<int> index;
     common_index.Find(key, index);

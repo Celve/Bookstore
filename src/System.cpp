@@ -14,6 +14,7 @@ void System::Output() {
 void System::Initialize() {
     book_system.Initialize();
     user_system.Initialize();
+    log_system.Initialize();
 }
 
 void System::Run(string &command) {
@@ -22,6 +23,8 @@ void System::Run(string &command) {
     if (split.empty())
         return ;
     try {
+        if (command.size() > 512)
+            throw Exception();
         if (split.size() >= 2 && split[0] == "show" && split[1] == "finance")
             ShowFinance(split);
         else if (split[0] == "quit" || split[0] == "exit")
@@ -195,7 +198,7 @@ void System::Show(vector<string> &list) {
     }
     for (int i = 0; i < res.size(); ++i)
         cout << res[i] << endl;
-    if (!res.size())
+    if (res.empty())
         cout << endl;
 }
 
