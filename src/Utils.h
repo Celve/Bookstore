@@ -99,10 +99,13 @@ static bool CheckQuantity(string &quantity) {
 static bool CheckDot(string &dot) {
     if (dot.size() > 13 || dot.empty())
         return false;
+    int sum = 0;
     for (int i = 0; i < dot.size(); ++i)
         if (!isdigit(dot[i]) && dot[i] != '.')
             return false;
-    return true;
+        else if (dot[i] == '.')
+            ++sum;
+    return sum <= 1;
 }
 
 static bool CheckMixed(string &mixed) {
