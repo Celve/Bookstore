@@ -222,6 +222,10 @@ void System::ShowFinance(vector<string> &list) {
         throw Exception();
 }
 
-void System::Report(vector<string> &list) {}
+void System::Report(vector<string> &list) {
+    throw Exception();
+}
 
-void System::Log(vector<string> &list) {}
+void System::Log(vector<string> &list) {
+    throw Exception();
+}
