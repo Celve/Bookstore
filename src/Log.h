@@ -47,7 +47,7 @@ public:
 };
 
 class LogSystem {
-    static const int NONE = 0x3f3f3f3f;
+    static const int kNone = 0x3f3f3f3f;
     int n;
     File<FinanceLog, 1> finance;
 
@@ -60,7 +60,7 @@ public:
 
     void AddFinanceLog(string &command, Book book, int quantity, double money);
 
-    bool ShowFinanceLog(int time = NONE);
+    bool ShowFinanceLog(int time = kNone);
 };
 
 #endif //BOOKSTORE_LOG_H

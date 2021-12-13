@@ -9,8 +9,8 @@ FinanceLog::FinanceLog() {
     quantity = 0;
 }
 
-FinanceLog::FinanceLog(string &_command, Book book, int quantity, double money): book(book), quantity(quantity), money(money) {
-    strcpy(command, _command.c_str());
+FinanceLog::FinanceLog(string &command_, Book book, int quantity, double money): book(book), quantity(quantity), money(money) {
+    strcpy(command, command_.c_str());
 }
 
 void LogSystem::Initialize() {
@@ -31,7 +31,7 @@ void LogSystem::AddFinanceLog(string &command, Book book, int quantity, double m
 }
 
 bool LogSystem::ShowFinanceLog(int time) {
-    if (time == NONE)
+    if (time == kNone)
         time = n;
     if (!time) {
         puts("");

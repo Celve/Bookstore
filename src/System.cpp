@@ -32,7 +32,7 @@ void System::Run(string &command) {
         else if (split[0] == "su")
             Su(split);
         else if (split[0] == "logout")
-            LogOut(split);
+            Logout(split);
         else if (split[0] == "register")
             Register(split);
         else if (split[0] == "passwd")
@@ -81,7 +81,7 @@ void System::Su(vector<string> &list) {
     book_system.DeSelect();
 }
 
-void System::LogOut(vector<string> &list) {
+void System::Logout(vector<string> &list) {
     if (list.size() > 1 || !user_system.LogOut())
         throw Exception();
     book_system.Select(user_system.Book());

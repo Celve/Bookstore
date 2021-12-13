@@ -30,22 +30,22 @@ Node::Node(int index): index(index) {
     is_leaf = false;
 }
 
-Node::Node(int _index, char *_key, int _hash, int _children) {
-    index = _index;
+Node::Node(int index_, char *key_, int hash_, int children_) {
+    index = index_;
     pre = next = -3;
     n = 1;
     is_leaf = false;
-    strcpy(key[0], _key);
-    hash[0] = _hash;
-    children[0] = _children;
+    strcpy(key[0], key_);
+    hash[0] = hash_;
+    children[0] = children_;
 }
 
-int Node::Find(char *_key, int _hash) {
+int Node::Find(char *key_, int hash_) {
     int l = 0, r = n - 1, res = n;
     while (l <= r) {
         int mid = (l + r) >> 1;
-        int judgement = strcmp(_key, key[mid]);
-        if (judgement < 0 || (!judgement && _hash <= hash[mid])) {
+        int judgement = strcmp(key_, key[mid]);
+        if (judgement < 0 || (!judgement && hash_ <= hash[mid])) {
             res = mid;
             r = mid - 1;
         }
@@ -55,21 +55,21 @@ int Node::Find(char *_key, int _hash) {
     return res;
 }
 
-bool Node::Insert(char *_key, int _hash, int _children) {
-    int p = Find(_key, _hash);
-    if (p < n && !strcmp(_key, key[p]) && _hash == hash[p])
+bool Node::Insert(char *key_, int hash_, int children_) {
+    int p = Find(key_, hash_);
+    if (p < n && !strcmp(key_, key[p]) && hash_ == hash[p])
         return false;
     Shift(p);
-    strcpy(key[p], _key);
-    hash[p] = _hash;
-    children[p] = _children;
+    strcpy(key[p], key_);
+    hash[p] = hash_;
+    children[p] = children_;
     ++n;
     return true;
 }
 
-bool Node::Delete(char *_key, int _hash) {
-    int p = Find(_key, _hash);
-    if (p < n && !strcmp(_key, key[p]) && _hash == hash[p]) {
+bool Node::Delete(char *key_, int hash_) {
+    int p = Find(key_, hash_);
+    if (p < n && !strcmp(key_, key[p]) && hash_ == hash[p]) {
         DeShift(p);
         --n;
         return true;

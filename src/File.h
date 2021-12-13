@@ -15,8 +15,8 @@ template<class T, int n = 2>
 class File {
     char file_name[64];
     fstream file;
-    static const int sizeof_T = sizeof(T);
-    static const int sizeof_int = sizeof(int);
+    static const int kSizeofT = sizeof(T);
+    static const int kSizeofInt = sizeof(int);
 
 public:
     void Initialize() {
@@ -24,12 +24,12 @@ public:
         file.close();
     }
 
-    File(char *_file_name) {
-        strcpy(file_name, _file_name);
+    File(char *file_name_) {
+        strcpy(file_name, file_name_);
     }
 
-    File(string &_file_name) {
-        strcpy(file_name, _file_name.c_str());
+    File(string &file_name_) {
+        strcpy(file_name, file_name_.c_str());
     }
 
     bool IsExisted() {
@@ -40,34 +40,34 @@ public:
     }
 
     void WriteInfo(int &value, int i) {
-        int index = sizeof_int * i;
+        int index = kSizeofInt * i;
         file.open(file_name);
         file.seekp(index);
-        file.write(reinterpret_cast<char *>(&value), sizeof_int);
+        file.write(reinterpret_cast<char *>(&value), kSizeofInt);
         file.close();
     }
 
     void ReadInfo(int &value, int i) {
-        int index = sizeof_int * i;
+        int index = kSizeofInt * i;
         file.open(file_name);
         file.seekg(index);
-        file.read(reinterpret_cast<char *>(&value), sizeof_int);
+        file.read(reinterpret_cast<char *>(&value), kSizeofInt);
         file.close();
     }
 
     void Write(T &value, int i) {
-        int index = sizeof_T * i + sizeof_int * n;
+        int index = kSizeofT * i + kSizeofInt * n;
         file.open(file_name);
         file.seekp(index);
-        file.write(reinterpret_cast<char *>(&value), sizeof_T);
+        file.write(reinterpret_cast<char *>(&value), kSizeofT);
         file.close();
     }
 
     void Read(T &value, int i) {
-        int index = sizeof_T * i + sizeof_int * n;
+        int index = kSizeofT * i + kSizeofInt * n;
         file.open(file_name);
         file.seekg(index);
-        file.read(reinterpret_cast<char *>(&value), sizeof_T);
+        file.read(reinterpret_cast<char *>(&value), kSizeofT);
         file.close();
     }
 };

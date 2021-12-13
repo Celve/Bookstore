@@ -6,8 +6,8 @@
 
 Book::Book() = default;
 
-Book::Book(string _isbn) {
-    strcpy(isbn, _isbn.c_str());
+Book::Book(string isbn_) {
+    strcpy(isbn, isbn_.c_str());
     quantity = n = 0;
     total_cost = price = 0;
     name[0] = author[0] = '\0';
@@ -104,16 +104,16 @@ bool BookSystem::ShowKeyword(string &keyword, vector<Book> &res) {
 }
 
 void BookSystem::Select(string &isbn) {
-    char _isbn[21];
-    strcpy(_isbn, isbn.c_str());
+    char isbn_[21];
+    strcpy(isbn_, isbn.c_str());
     vector<int> index;
-    isbn_index.Find(_isbn, index);
-    if (isbn_index.Find(_isbn, index))
+    isbn_index.Find(isbn_, index);
+    if (isbn_index.Find(isbn_, index))
         file.Read(selected, address = index[0]);
     else {
-        Book book(_isbn);
+        Book book(isbn_);
         file.Write(book, address = n++);
-        isbn_index.Insert(_isbn, address);
+        isbn_index.Insert(isbn_, address);
         selected = book;
     }
 }
@@ -123,43 +123,43 @@ bool BookSystem::IsSelected() {
 }
 
 void BookSystem::ModifyIsbn(string &isbn) {
-    char _isbn[21];
-    strcpy(_isbn, selected.isbn);
+    char isbn_[21];
+    strcpy(isbn_, selected.isbn);
     strcpy(selected.isbn, isbn.c_str());
     file.Write(selected, address);
-    isbn_index.Delete(_isbn, address);
+    isbn_index.Delete(isbn_, address);
     isbn_index.Insert(selected.isbn, address);
 }
 
 void BookSystem::ModifyName(string &name) {
-    char _name[61];
-    strcpy(_name, selected.name);
+    char name_[61];
+    strcpy(name_, selected.name);
     strcpy(selected.name, name.c_str());
     file.Write(selected, address);
-    name_index.Delete(_name, address);
+    name_index.Delete(name_, address);
     name_index.Insert(selected.name, address);
 }
 
 void BookSystem::ModifyAuthor(string &author) {
-    char _author[61];
-    strcpy(_author, selected.author);
+    char author_[61];
+    strcpy(author_, selected.author);
     strcpy(selected.author, author.c_str());
     file.Write(selected, address);
-    author_index.Delete(_author, address);
+    author_index.Delete(author_, address);
     author_index.Insert(selected.author, address);
 }
 
 void BookSystem::ModifyKeyword(vector<string> &keywords) {
-    char _keyword[61][61];
+    char keyword_[61][61];
     int used_n = selected.n;
     for (int i = 0; i < used_n; ++i)
-        strcpy(_keyword[i], selected.keyword[i]);
+        strcpy(keyword_[i], selected.keyword[i]);
     selected.n = keywords.size();
     for (int i = 0; i < selected.n; ++i)
         strcpy(selected.keyword[i], keywords[i].c_str());
     file.Write(selected, address);
     for (int i = 0; i < used_n; ++i)
-        keyword_index.Delete(_keyword[i], address);
+        keyword_index.Delete(keyword_[i], address);
     for (int i = 0; i < selected.n; ++i)
         keyword_index.Insert(selected.keyword[i], address);
 }
@@ -173,10 +173,10 @@ bool BookSystem::Modify(string &isbn, string &name, string &author, vector<strin
     if (address == -1)
         return false;
     if (!isbn.empty()) {
-        char _isbn[21];
+        char isbn_[21];
         vector<int> index;
-        strcpy(_isbn, isbn.c_str());
-        if (isbn_index.Find(_isbn, index))
+        strcpy(isbn_, isbn.c_str());
+        if (isbn_index.Find(isbn_, index))
             return false;
         ModifyIsbn(isbn);
     }
@@ -194,8 +194,6 @@ bool BookSystem::Modify(string &isbn, string &name, string &author, vector<strin
 bool BookSystem::Import(string &quantity, string &total_cost) {
     if (address == -1)
         return false;
-    if (stoi(quantity) == 0)
-        return false;
     selected.quantity += stoi(quantity);
     selected.total_cost += stod(total_cost);
     file.Write(selected, address);
@@ -203,10 +201,10 @@ bool BookSystem::Import(string &quantity, string &total_cost) {
 }
 
 bool BookSystem::Buy(string &isbn, string &quantity, Book &book) {
-    char _isbn[21];
-    strcpy(_isbn, isbn.c_str());
+    char isbn_[21];
+    strcpy(isbn_, isbn.c_str());
     vector<int> index;
-    if (!isbn_index.Find(_isbn, index))
+    if (!isbn_index.Find(isbn_, index))
         return false;
     int int_quantity = stoi(quantity);
     file.Read(book, index[0]);

@@ -37,7 +37,7 @@ public:
 
     void Su(vector<string> &list);
 
-    void LogOut(vector<string> &list);
+    void Logout(vector<string> &list);
 
     void Register(vector<string> &list);
 

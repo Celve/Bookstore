@@ -34,13 +34,13 @@ public:
 
     explicit Node(int index = -2);
 
-    Node(int _index, char *_key, int _hash, int _children);
+    Node(int index_, char *key_, int hash_, int children_);
 
-    int Find(char *_key, int _hash);
+    int Find(char *key_, int hash_);
 
-    bool Insert(char *_key, int _hash, int _children);
+    bool Insert(char *key_, int hash_, int children_);
 
-    bool Delete(char *_key, int _hash);
+    bool Delete(char *key_, int hash_);
 
     void Shift(int k);
 
