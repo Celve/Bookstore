@@ -2,9 +2,13 @@
 
 # 开发文档Bookstore
 
-_version：1.0_
+_version：1.1_
 
 _Author:  peroni_
+
+## log
+
+2021.12.16 统一了变量名；修改逻辑结构为顶层的Bookstore与四个子模块
 
 ## 程序功能
 
@@ -20,82 +24,108 @@ _Author:  peroni_
 
 ## 各个类的接口及成员说明
 
-#### Main.cpp
-
-##### 全局变量
+#### Bookstore.h/Bookstore.cpp
 
 ```c++
-vector<class userselect>//登陆栈，每次账号改变时更新当前操作权限
-
-int priority = 0;
-  
-string selectISBN;
-```
-
-```c++
-void Init();//实现初始化，root账户(usermanager类)
-```
-
-```c++
-void RunCommand(string s);//读入一行命令并调用各类函数
-```
-
-
-
-#### Command.cpp/Command.h
-
-##### CommandManager类
-
-```c++
-class CommandManager{
-  
+class Bookstore {
+private:
+    BookSystem book_system;
+    UserSystem user_system;
+    FinanceLogSystem finance_log_system;
+    EmployeeLogSystem employee_log_system;
+    
 public:
-  
-void Run(string s);
+    Bookstore();
 
-string SplitString(string &before，string after, int devidedbykey = 0);//去掉before首1字符串，返回值after为首1字符串
+    void Output();
 
-bool CheckCommand(string s);//*鲁棒性
+    void Initialize();
 
-bool CheckPriority();//*判断权限是否正确
+    void Run(string &command);
 
-void Quit();
+    void Quit(vector<string> &list);
 
-void Exit();
-}
+    void Su(vector<string> &list);
+
+    void Logout(vector<string> &list);
+
+    void Register(vector<string> &list);
+
+    void Passwd(vector<string> &list);
+
+    void UserAdd(vector<string> &list);
+
+    void Delete(vector<string> &list);
+
+    void Modify(vector<string> &list);
+
+    void Buy(vector<string> &list);
+
+    void Select(vector<string> &list);
+
+    void Show(vector<string> &list);
+
+    void Import(vector<string> &list);
+
+    void Report(vector<string> &list);
+
+    void Log(vector<string> &list);
+
+    void ShowFinance(vector<string> &list);
+
+    bool AddLog(vector<string> &lit);
+};
 ```
 
 
 
-#### usermanager.cpp/usermanager.h
 
-##### UserManager类
+
+#### UserSystem.cpp/UserSystem.h
+
+##### UserSystem类
 
 当前用户级别和书本选择；
 
 ```c++
-class UserManager{
-  
+class UserSystem {
+    vector<UserPair> users;
+    unordered_map<int, int> online;
+    File<User, 1> file;
+    BPlusTree id_index;
+    int n;
+
 public:
-  
-void Initialize();//*初始化一个老板
+    UserSystem();
 
-bool Login(string id,string password);//*登陆
+    ~UserSystem();
 
-bool Login(string id);//*高权限登陆
+    void Initialize();
 
-bool Logout();//*登出
+    void Output();
 
-bool Register(string userID,string password,string username);//*注册
+    bool Su(string &ID, string &password);
 
-bool ChangePassword(string user_ID, string new_password, string old_password);//*修改密码
+    bool LogOut();
 
-bool ChangePassword(string user_ID, string new_password);//*高权限修改密码
+    bool Register(string &_id, string &_password, string &_name);
 
-bool AddUser(string user_ID, string password, string priority, string user_name);//*创建账户
+    bool Passwd(string &_id, string &_old_password, string &_new_password);
 
-bool DeleteUser(string user_ID);//*删除账户
-}
+    bool UserAdd(string &_id, string &_password, string &_priority, string &_name);
+
+    bool Delete(string &_id);
+
+    bool Select(int book);
+
+    int Book();
+
+    bool CheckPriority(int priority);
+
+    bool Top(User &cur);
+
+    bool IsEmpty();
+};
 ```
 
 ##### User类
@@ -110,17 +140,17 @@ bool DeleteUser(string user_ID);//*删除账户
 ##### UserSelect类
 
 ```c++
-class Userselect{
+class UserSelect{
   public:
     int userID_;
     char isbn_[20];
-    bool bookselected = false;//当前是否选中图书
+    bool bookselected_ = false;//当前是否选中图书
 }
 ```
 
 
 
-#### Bookstore.cpp/Bookstore.h
+#### BookSystem.cpp/BookSystem.h
 
 ##### LogManager类
 
@@ -153,19 +183,67 @@ public:
 
 
 
-##### BookStore类
+##### BookSystem类
 
 ```c++
-class BookStore{
+class BookSystem {
+    int n, address;
+    Book selected;
+    File<Book, 1> file;
+    BPlusTree isbn_index;
+    BPlusTree name_index;
+    BPlusTree author_index;
+    BPlusTree keyword_index;
+
+    bool ShowCommon(string &key, BPlusTree &index, vector<Book> &res);
+
 public:
-bool Buy(string isbn, int quantity);
+    void Initialize();
 
-bool show（string keyword）;
+    BookSystem();
 
-bool select(int isbn)
+    void Output();
 
-bool Modify(string isbn, string name, string author, string keyword, string price); 
-}
+    void ShowAll(vector<Book> &res);
+
+    bool ShowIsbn(string &isbn, vector<Book> &res);
+
+    bool ShowName(string &name, vector<Book> &res);
+
+    bool ShowAuthor(string &author, vector<Book> &res);
+
+    bool ShowKeyword(string &keyword, vector<Book> &res);
+
+    bool IsSelected();
+
+    void Select(string &isbn);
+
+    void ModifyIsbn(string &isbn);
+
+    void ModifyName(string &name);
+
+    void ModifyAuthor(string &author);
+
+    void ModifyKeyword(vector<string> &keyword);
+
+    void ModifyPrice(string &price);
+
+    bool Modify(string &isbn, string &name, string &author, vector<string> &keywords, string &price);
+
+    bool Import(string &quantity, string &total_cost);
+
+    bool Buy(string &isbn, string &quantity, Book &book);
+
+    void DeSelect();
+
+    int GetAddress();
+
+    Book SelectedBook();
+
+    void Select(int book);
+
+    ~BookSystem();
+};
 ```
 
 
@@ -189,7 +267,6 @@ double price_;
   
 int quantity_; 
   
-double total_cost_;
  }
 ```
 
@@ -221,7 +298,7 @@ public:
     int nxt_;
     int pre_;
     int num_;
-    UllNode array_[BLOCK_SIZE];
+    UllNode array_[BLOCK_SIZE];//BLOCK_SIZE块的大小
 
 UllBlock();
 
@@ -337,10 +414,9 @@ index_employee.dat
 
 📚 My Bookstore Log    [ 标题 ] for finance
 ---------------------------------------------
+[ income ]  -[ outcome ]
 
-💸 + [ income ]  -[ outcome ]
-
-💸 + [ income ]  -[ outcome ]
+[ income ]  -[ outcome ]
 
 📚 My Bookstore Log    [ 标题 ] for Log
 ---------------------------------------------
