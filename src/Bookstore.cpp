@@ -4,21 +4,21 @@
 
 #include "Bookstore.h"
 
-System::System() = default;
+Bookstore::Bookstore() = default;
 
-void System::Output() {
+void Bookstore::Output() {
     user_system.Output();
     book_system.Output();
 }
 
-void System::Initialize() {
+void Bookstore::Initialize() {
     book_system.Initialize();
     user_system.Initialize();
     finance_log_system.Initialize();
     employee_log_system.Initialize();
 }
 
-void System::Run(string &command) {
+void Bookstore::Run(string &command) {
     try {
         if (!CheckCommand(command))
             throw Exception();
@@ -26,7 +26,7 @@ void System::Run(string &command) {
         Split(command, split);
         if (split.empty())
             return ;
-        if (split.size() >= 2 && split[0] == "show" && split[1] == "file")
+        if (split.size() >= 2 && split[0] == "show" && split[1] == "finance")
             ShowFinance(split);
         else if (split[0] == "quit" || split[0] == "exit")
             Quit(split);
@@ -64,14 +64,14 @@ void System::Run(string &command) {
     }
 }
 
-void System::Quit(vector<string> &list) {
+void Bookstore::Quit(vector<string> &list) {
     if (list.size() != 1)
         throw Exception();
     while (user_system.LogOut());
     exit(0);
 }
 
-void System::Su(vector<string> &list) {
+void Bookstore::Su(vector<string> &list) {
     if (list.size() > 3 || list.size() == 1)
         throw Exception();
     string temp;
@@ -82,20 +82,20 @@ void System::Su(vector<string> &list) {
     book_system.DeSelect();
 }
 
-void System::Logout(vector<string> &list) {
+void Bookstore::Logout(vector<string> &list) {
     if (list.size() > 1 || !user_system.LogOut())
         throw Exception();
     book_system.Select(user_system.Book());
 }
 
-void System::Register(vector<string> &list) {
+void Bookstore::Register(vector<string> &list) {
     if (list.size() != 4 || !CheckMixed(list[1]) || !CheckMixed(list[2]) || !CheckName(list[3]))
         throw Exception();
     if (!user_system.Register(list[1], list[2], list[3]))
         throw Exception();
 }
 
-void System::Passwd(vector<string> &list) {
+void Bookstore::Passwd(vector<string> &list) {
     if (list.size() > 4 || list.size() < 3)
         throw Exception();
     string temp;
@@ -105,7 +105,7 @@ void System::Passwd(vector<string> &list) {
         throw Exception();
 }
 
-void System::UserAdd(vector<string> &list) {
+void Bookstore::UserAdd(vector<string> &list) {
     if (list.size() != 5)
         throw Exception();
     if (!CheckMixed(list[1]) || !CheckMixed(list[2]) || !CheckNumber(list[3]) || !CheckName(list[4]))
@@ -114,14 +114,14 @@ void System::UserAdd(vector<string> &list) {
         throw Exception();
 }
 
-void System::Delete(vector<string> &list) {
+void Bookstore::Delete(vector<string> &list) {
     if (list.size() != 2)
         throw Exception();
     if (!CheckMixed(list[1]) || !user_system.Delete(list[1]))
         throw Exception();
 }
 
-void System::Modify(vector<string> &list) {
+void Bookstore::Modify(vector<string> &list) {
     if (list.size() == 1 || !user_system.CheckPriority(3))
         throw Exception();
     vector<pair<string, string>> factor;
@@ -153,7 +153,7 @@ void System::Modify(vector<string> &list) {
     AddLog(list);
 }
 
-void System::Buy(vector<string> &list) {
+void Bookstore::Buy(vector<string> &list) {
     if (list.size() != 3 || !user_system.CheckPriority(1))
         throw Exception();
     if (!CheckIsbn(list[1]) || !CheckQuantity(list[2]))
@@ -165,7 +165,7 @@ void System::Buy(vector<string> &list) {
     cout << fixed << setprecision(2) << stoi(list[2]) * book.price << endl;
 }
 
-void System::Select(vector<string> &list) {
+void Bookstore::Select(vector<string> &list) {
     if (list.size() != 2 || !user_system.CheckPriority(3))
         throw Exception();
     if (!CheckIsbn(list[1]))
@@ -177,7 +177,7 @@ void System::Select(vector<string> &list) {
     AddLog(list);
 }
 
-void System::Show(vector<string> &list) {
+void Bookstore::Show(vector<string> &list) {
     if (list.size() > 2 || !user_system.CheckPriority(1))
         throw Exception();
     vector<Book> res;
@@ -206,7 +206,7 @@ void System::Show(vector<string> &list) {
     AddLog(list);
 }
 
-void System::Import(vector<string> &list) {
+void Bookstore::Import(vector<string> &list) {
     if (list.size() != 3 || !user_system.CheckPriority(3))
         throw Exception();
     if (!CheckQuantity(list[1]) || !CheckDot(list[2]))
@@ -218,7 +218,7 @@ void System::Import(vector<string> &list) {
     AddLog(list);
 }
 
-void System::ShowFinance(vector<string> &list) {
+void Bookstore::ShowFinance(vector<string> &list) {
     if (list.size() > 3 || !user_system.CheckPriority(7))
         throw Exception();
     if (list.size() == 2 && !finance_log_system.ShowFinanceLog())
@@ -227,11 +227,14 @@ void System::ShowFinance(vector<string> &list) {
         throw Exception();
 }
 
-void System::Report(vector<string> &list) {
+void Bookstore::Report(vector<string> &list) {
     if (list.size() != 2)
         throw Exception();
-    if (list[1] == "finance")
-        ;
+    if (list[1] == "finance") {
+        if (!user_system.CheckPriority(7))
+            throw Exception();
+        finance_log_system.ReportFinance();
+    }
     else if (list[1] == "employee") {
         if (!user_system.CheckPriority(7))
             throw Exception();
@@ -247,11 +250,11 @@ void System::Report(vector<string> &list) {
         throw Exception();
 }
 
-void System::Log(vector<string> &list) {
+void Bookstore::Log(vector<string> &list) {
     throw Exception();
 }
 
-bool System::AddLog(vector<string> &list) {
+bool Bookstore::AddLog(vector<string> &list) {
     User cur;
     if (!user_system.Top(cur))
         return false;
