@@ -222,7 +222,7 @@ void BookSystem::DeSelect() {
     address = -1;
 }
 
-int BookSystem::SelectedAddress() {
+int BookSystem::GetAddress() {
     return address;
 }
 

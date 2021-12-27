@@ -19,3 +19,18 @@ delete UserA
 delete UserB
 delete UserC
 delete Okami
+
+su root sjtu
+useradd user1 user1 3 user1
+su user1
+select 1
+modify -price=1
+modify -name="wow"
+report myself
+
+su root sjtu
+select 1
+import 100 1000
+import 10000 100000
+buy 1 10
+show finance

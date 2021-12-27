@@ -174,7 +174,7 @@ public:
 
     void DeSelect();
 
-    int SelectedAddress();
+    int GetAddress();
 
     Book SelectedBook();
 

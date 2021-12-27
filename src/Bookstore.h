@@ -25,8 +25,9 @@ private:
     FinanceLogSystem finance_log_system;
     EmployeeLogSystem employee_log_system;
 
+    bool AddLog(vector<string> &list);git gi
 public:
-    System();
+    Bookstore();
 
     void Output();
 
@@ -63,8 +64,6 @@ public:
     void Log(vector<string> &list);
 
     void ShowFinance(vector<string> &list);
-
-    bool AddLog(vector<string> &lit);
 };
 
 

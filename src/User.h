@@ -74,6 +74,10 @@ class User {
 public:
     friend class UserSystem;
 
+    int GetPriority();
+
+    char* GetId();
+
     User();
 
     User(char *_id, char *_name, char *_password, int priority);
@@ -122,6 +126,8 @@ public:
     int Book();
 
     bool CheckPriority(int priority);
+
+    bool Top(User &cur);
 
     bool IsEmpty();
 };

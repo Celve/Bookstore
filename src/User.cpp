@@ -12,6 +12,14 @@ User::User(char *id_, char *name_, char *password_, int priority):  priority(pri
     strcpy(password, password_);
 }
 
+int User::GetPriority() {
+    return priority;
+}
+
+char* User::GetId() {
+    return id;
+}
+
 void UserSystem::Output() {
     puts("---begin---");
     for (int i = 0; i < users.size(); ++i) {
@@ -170,6 +178,14 @@ bool UserSystem::IsEmpty() {
 
 int UserSystem::Book() {
     return users.back().book;
+}
+
+bool UserSystem::Top(User &cur) {
+    if (users.size() == 1)
+        return false;
+    int index = users.back().user;
+    file.Read(cur, index);
+    return true;
 }
 
 bool UserSystem::CheckPriority(int priority) {
