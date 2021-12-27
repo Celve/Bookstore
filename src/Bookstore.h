@@ -25,7 +25,7 @@ private:
     FinanceLogSystem finance_log_system;
     EmployeeLogSystem employee_log_system;
 
-    bool AddLog(vector<string> &list);git gi
+    bool AddLog(vector<string> &list);
 public:
     Bookstore();
 
