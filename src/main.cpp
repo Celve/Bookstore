@@ -2,7 +2,7 @@
 // Created by Okami on 2021/12/4.
 //
 
-#include "System.h"
+#include "Bookstore.h"
 #include <iostream>
 #include <cstdio>
 #include <cstring>
@@ -10,7 +10,7 @@
 
 using namespace std;
 
-System bookstore;
+Bookstore bookstore;
 
 int main() {
     string command;
