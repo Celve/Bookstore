@@ -10,6 +10,8 @@ _Author:  peroni_
 
 2021.12.16 统一了变量名；修改逻辑结构为顶层的Bookstore与四个子模块
 
+2021.12.30 取消了emoji
+
 ## 程序功能
 
 #### 一.图书信息的维护
@@ -406,23 +408,16 @@ index_employee.dat
 📚 My Bookstore Log    [ 标题 ] for employee
 ---------------------------------------------
 
-🥸  name 
-    command
+name 
+	command
 
-🥸  name
-    command
+name
+	command
 
 📚 My Bookstore Log    [ 标题 ] for finance
 ---------------------------------------------
 [ income ]  -[ outcome ]
 
 [ income ]  -[ outcome ]
-
-📚 My Bookstore Log    [ 标题 ] for Log
----------------------------------------------
-🥸  name   + "with" + command               💸 + [ income ]  -[ outcome ]
-🥸  																				💸
-🥸																					💸
-
 ```
 
