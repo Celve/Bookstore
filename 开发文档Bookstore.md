@@ -139,51 +139,104 @@ public:
 | authority_ | 整形                    |
 | password_  | 字符数组 max length: 30 |
 
-##### UserSelect类
+##### UserPair类
 
 ```c++
-class UserSelect{
-  public:
-    int userID_;
-    char isbn_[20];
-    bool bookselected_ = false;//当前是否选中图书
+class UserPair{
+public:
+    int book;
+    int user;
 }
 ```
 
 
+
+#### LogSystem.cpp/LogSystem.h
+
+##### EmployeeLog 类
+
+```c++
+class EmployeeLog {
+private:
+    int n;
+    char id[31];
+    char commands[21][61];
+public:
+    friend class EmployeeLogSystem;
+
+    EmployeeLog();
+
+    EmployeeLog(char *id_, vector<string> &commands);
+};
+```
+
+##### EmployeeLogSystem 类
+
+```c++
+class EmployeeLogSystem {
+private:
+    int n;
+    File<EmployeeLog, 1> file;
+    BPlusTree employee_index;
+
+public:
+    void Initialize();
+
+    EmployeeLogSystem();
+
+    ~EmployeeLogSystem();
+
+    void AddEmployeeLog(char *id, vector<string> &commands);
+
+    bool ReportEmployeeLog(char *id);
+
+    bool ReportEmployeeLog();
+};
+```
+
+##### FinanceLog 类
+
+```c++
+class FinanceLog {
+private:
+    char command[21];
+    Book book;
+    int quantity;
+    double money;
+public:
+    friend class FinanceLogSystem;
+
+    FinanceLog();
+
+    FinanceLog(string &command_, Book &book, int quantity, double money);
+};
+```
+
+##### FinanceLogSystem 类
+
+```c++
+class FinanceLogSystem {
+private:
+    static const int kNone = 0x3f3f3f3f;
+    int n;
+    File<FinanceLog, 1> file;
+
+public:
+    void Initialize();
+
+    FinanceLogSystem();
+
+    ~FinanceLogSystem();
+
+    void AddFinanceLog(string &command, Book book, int quantity, double money);
+
+    bool ShowFinanceLog(int time = kNone);
+
+    void ReportFinance();
+};
+```
 
 #### BookSystem.cpp/BookSystem.h
-
-##### LogManager类
-
-```c++
-class LogManager{
-public:
-void showFinance(int time);
-
-void showFinance();
-
-void reportMyself();
-
-void reportFinance();
-
-void reportEmployee();
-
-void showLog();
-  
-void addLog(string command);
-}
-```
-
-```c++
-class Log{
-public:
- char[] employee_;
- char[] command_;
-}
-```
-
-
 
 ##### BookSystem类
 
