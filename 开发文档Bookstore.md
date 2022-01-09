@@ -144,7 +144,7 @@ public:
 ```c++
 class UserPair{
 public:
-    int book;
+    int book;s
     int user;
 }
 ```

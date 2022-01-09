@@ -234,6 +234,7 @@ void Bookstore::Report(vector<string> &list) {
         if (!user_system.CheckPriority(7))
             throw Exception();
         finance_log_system.ReportFinance();
+        finance_log_system.ShowFinanceLog();
     }
     else if (list[1] == "employee") {
         if (!user_system.CheckPriority(7))
@@ -251,7 +252,13 @@ void Bookstore::Report(vector<string> &list) {
 }
 
 void Bookstore::Log(vector<string> &list) {
-    throw Exception();
+    if (list.size() != 1 || !user_system.CheckPriority(7))
+        throw Exception();
+    cout << "Employee Log: " << endl;
+    employee_log_system.ReportEmployeeLog();
+    cout << "Finance Log: " << endl;
+    finance_log_system.ReportFinance();
+    finance_log_system.ShowFinanceLog();
 }
 
 bool Bookstore::AddLog(vector<string> &list) {
